@@ -26,9 +26,10 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('helloCat')
-  helloAllCat() {
-    return this.catsService.helloCatWorld();
-  }
+  // @Get('helloCat')
+  // helloAllCat() {
+  //   return this.catsService.helloCatWorld();
+  // }
+  
 }
   

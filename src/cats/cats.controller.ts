@@ -1,60 +1,39 @@
-import {
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  Put,
-  UseFilters,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/http-exception.filter';
 import { PositiveIntPipe } from 'src/positiveInt.pipe';
 import { SuccessInterceptor } from 'src/success.interceptor';
 import { CatsService } from './cats.service';
+import { CatRequestDto } from './dto/cats.request.dto';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
 export class CatsController {
-  constructor(private readonly castsService: CatsService) {}
+  constructor(private readonly catsService: CatsService) {}
 
   @Get()
-  @UseFilters(HttpExceptionFilter)
-  getAllCat() {
-    // throw new HttpException({ success: false, message: 'api is broken' }, 401);
-    console.log("고양이 목록 다 불러오기 라우터 실행 !!");
-    return 'all cat';
-  }
-
-  @Get(':id')
-  getOneCat(@Param('id', ParseIntPipe, PositiveIntPipe) param: number) {
-    console.log('param의 id를 int 로 변환하는 파이프 라인 설정');
-    console.log(typeof param);
-    console.log(param);
-
-    return 'one cat';
+  getCurrentCat() {
+    return 'current cat';
   }
 
   @Post()
-  createCat() {
-    return 'create cat';
+  async signUp(@Body() body: CatRequestDto) {
+    // console.log(body);
+    // return 'signup';
+    return await this.catsService.signUp(body);
   }
 
-  @Put(':id')
-  updateCat() {
-    return 'update cat';
+  @Post('login')
+  logIn() {
+    return 'login';
   }
 
-  @Patch(':id')
-  updatePartialCat() {
-    return 'update partial cat';
+  @Post('logout')
+  logOut() {
+    return 'logout';
   }
 
-  @Delete(':id')
-  deleteCat() {
-    return 'delete service';
+  @Post('upload/cats')
+  uploadCatImg() {
+    return 'uploadImg';
   }
 }
